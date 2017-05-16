@@ -224,7 +224,7 @@ func (c *StatsdClient) SendEvents(events map[string]event.Event) error {
 
 			if _n > UDPPayloadSize {
 				// with this last event, the UDP payload would be too big
-				if _, err := fmt.Fprintf(c.conn, strings.Join(stats, "\n")); err != nil {
+				if _, err := fmt.Fprintf(c.conn, strings.Join(stats, "\n")+"\n"); err != nil {
 					return err
 				}
 				// reset payload after flushing, and add the last event
@@ -240,7 +240,7 @@ func (c *StatsdClient) SendEvents(events map[string]event.Event) error {
 	}
 
 	if len(stats) != 0 {
-		if _, err := fmt.Fprintf(c.conn, strings.Join(stats, "\n")); err != nil {
+		if _, err := fmt.Fprintf(c.conn, strings.Join(stats, "\n")+"\n"); err != nil {
 			return err
 		}
 	}
